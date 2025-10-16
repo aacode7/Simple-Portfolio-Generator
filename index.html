@@ -27,12 +27,15 @@
   <input type="text" id="desc1" placeholder="Project 1 Description"><br>
   <input type="text" id="project2" placeholder="Project 2 Name"><br>
   <input type="text" id="desc2" placeholder="Project 2 Description"><br>
+
   <button id="downloadBtn">Download Portfolio</button>
 
   <div id="preview"></div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <!-- ❌ Removed JSZip (not needed anymore) -->
+  <!-- ✅ Keep FileSaver for reliable download -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
   <script src="script.js"></script>
 </body>
 </html>

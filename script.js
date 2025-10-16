@@ -44,19 +44,29 @@ function updatePreview() {
   const desc2 = document.getElementById('desc2').value;
 
   preview.innerHTML = `
-    <h1>${name || ''}</h1>
-    <h2>${title || ''}</h2>
-    <p>${about || ''}</p>
-    ${skills.length ? `<h3>Skills</h3><ul>${skills.map(s => `<li>${s}</li>`).join('')}</ul>` : ''}
+    <h1>${escapeHtml(name) || ''}</h1>
+    <h2>${escapeHtml(title) || ''}</h2>
+    <p>${escapeHtml(about) || ''}</p>
+    ${skills.length ? `<h3>Skills</h3><ul>${skills.map(s => `<li>${escapeHtml(s)}</li>`).join('')}</ul>` : ''}
     <h3>Projects</h3>
     <ul>
-      ${project1 ? `<li><strong>${project1}</strong>: ${desc1}</li>` : ''}
-      ${project2 ? `<li><strong>${project2}</strong>: ${desc2}</li>` : ''}
+      ${project1 ? `<li><strong>${escapeHtml(project1)}</strong>: ${escapeHtml(desc1)}</li>` : ''}
+      ${project2 ? `<li><strong>${escapeHtml(project2)}</strong>: ${escapeHtml(desc2)}</li>` : ''}
     </ul>
   `;
 }
 
-// Generate downloadable HTML file
+// Escape HTML characters (safety)
+function escapeHtml(str) {
+  return String(str || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+// Generate downloadable HTML file directly (no ZIP)
 downloadBtn.addEventListener('click', async () => {
   const name = document.getElementById('name').value;
   const title = document.getElementById('title').value;
@@ -71,33 +81,48 @@ downloadBtn.addEventListener('click', async () => {
 <head>
 <meta charset='UTF-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-<title>${name}'s Portfolio</title>
+<title>${escapeHtml(name)}'s Portfolio</title>
 <style>
 body {font-family: Arial, sans-serif; background: #f0f2f5; color: #333; padding: 20px;}
 h1 {color: #007bff;}
 h2 {margin-top: -10px; color: #555;}
 h3 {margin-top: 20px; border-bottom: 1px solid #ddd;}
 ul {list-style-type: square; padding-left: 20px;}
+footer {margin-top: 30px; font-size: 12px; color: #888; text-align: center;}
 </style>
 </head>
 <body>
-  <h1>${name}</h1>
-  <h2>${title}</h2>
-  <p>${about}</p>
-  ${skills.length ? `<h3>Skills</h3><ul>${skills.map(s => `<li>${s}</li>`).join('')}</ul>` : ''}
+  <h1>${escapeHtml(name)}</h1>
+  <h2>${escapeHtml(title)}</h2>
+  <p>${escapeHtml(about)}</p>
+  ${skills.length ? `<h3>Skills</h3><ul>${skills.map(s => `<li>${escapeHtml(s)}</li>`).join('')}</ul>` : ''}
   <h3>Projects</h3>
   <ul>
-    ${project1 ? `<li><strong>${project1}</strong>: ${desc1}</li>` : ''}
-    ${project2 ? `<li><strong>${project2}</strong>: ${desc2}</li>` : ''}
+    ${project1 ? `<li><strong>${escapeHtml(project1)}</strong>: ${escapeHtml(desc1)}</li>` : ''}
+    ${project2 ? `<li><strong>${escapeHtml(project2)}</strong>: ${escapeHtml(desc2)}</li>` : ''}
   </ul>
-  <script>console.log('Portfolio Loaded');</script>
+  <footer>Generated with Portfolio Generator 🔥</footer>
+  <script>console.log('Portfolio Loaded');<\/script>
 </body>
 </html>`;
 
-  const zip = new JSZip();
-  zip.file('portfolio.html', htmlContent);
-  const blob = await zip.generateAsync({ type: 'blob' });
-  saveAs(blob, 'portfolio.zip');
+  try {
+    const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+    if (typeof saveAs === 'function') {
+      saveAs(blob, 'portfolio.html');
+    } else {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'portfolio.html';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+  } catch (err) {
+    alert('Error creating file: ' + err);
+  }
 });
 
 document.querySelectorAll('input, textarea').forEach(i => i.addEventListener('input', updatePreview));
