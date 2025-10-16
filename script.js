@@ -90,7 +90,7 @@ ul {list-style-type: square; padding-left: 20px;}
     ${project1 ? `<li><strong>${project1}</strong>: ${desc1}</li>` : ''}
     ${project2 ? `<li><strong>${project2}</strong>: ${desc2}</li>` : ''}
   </ul>
-  <script>console.log('Portfolio Loaded');<\\/script>
+  <script>console.log('Portfolio Loaded');</script>
 </body>
 </html>`;
 
