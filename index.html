@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio Generator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Portfolio Generator</h1>
+  <p>Fill your details below and download your single-file portfolio!</p>
+
+  <input type="text" id="name" placeholder="Your Name"><br>
+  <input type="text" id="title" placeholder="Your Profession / Title"><br>
+  <textarea id="about" placeholder="About You"></textarea><br>
+
+  <div id="skillsBox">
+    <label>Add Skills:</label><br>
+    <input type="text" id="skillInput" placeholder="Type a skill and press Enter">
+    <div id="skillTags"></div>
+  </div>
+
+  <input type="text" id="project1" placeholder="Project 1 Name"><br>
+  <input type="text" id="desc1" placeholder="Project 1 Description"><br>
+  <input type="text" id="project2" placeholder="Project 2 Name"><br>
+  <input type="text" id="desc2" placeholder="Project 2 Description"><br>
+  <button id="downloadBtn">Download Portfolio</button>
+
+  <div id="preview"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
