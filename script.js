@@ -2,20 +2,18 @@ const preview = document.getElementById('preview');
 const downloadBtn = document.getElementById('downloadBtn');
 const skillInput = document.getElementById('skillInput');
 const skillTags = document.getElementById('skillTags');
+const addSkillBtn = document.getElementById('addSkillBtn');
 let skills = [];
 
-// Add skill when pressing Enter
-skillInput.addEventListener('keydown', (e) => {
-  if (e.code === 'Space') {
-    e.preventDefault();
-    const skill = skillInput.value.trim();
-    if (skill && !skills.includes(skill)) {
-      skills.push(skill);
-      renderSkills();
-      updatePreview();
-    }
-    skillInput.value = '';
+// Add skill when pressing Add button
+addSkillBtn.addEventListener('click', () => {
+  const skill = skillInput.value.trim();
+  if (skill && !skills.includes(skill)) {
+    skills.push(skill);
+    renderSkills();
+    updatePreview();
   }
+  skillInput.value = '';
 });
 
 // Remove a skill
@@ -58,6 +56,7 @@ function updatePreview() {
   `;
 }
 
+// Generate downloadable HTML file
 downloadBtn.addEventListener('click', async () => {
   const name = document.getElementById('name').value;
   const title = document.getElementById('title').value;
