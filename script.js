@@ -5,8 +5,8 @@ const skillTags = document.getElementById('skillTags');
 let skills = [];
 
 // Add skill when pressing Enter
-skillInput.addEventListener('keypress', (e) => {
-  if (e.key === 'Enter') {
+skillInput.addEventListener('keydown', (e) => {
+  if (e.code === 'Space') {
     e.preventDefault();
     const skill = skillInput.value.trim();
     if (skill && !skills.includes(skill)) {
